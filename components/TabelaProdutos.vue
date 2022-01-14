@@ -1,18 +1,21 @@
 <template>
-    <v-data-table
-        :headers="headers"
-        :items="items"
-        :items-per-page="10"
-        class="elevation-1"
-    >
-    <template v-slot:[`item.actions`]="{ item }">
-        <v-btn icon color="primary" :to="`produto/${item.id}/editar`"><v-icon>mdi-pencil</v-icon></v-btn>
-        <v-btn icon color="red"><v-icon @click="apagarProduto(item.id)">mdi-delete</v-icon></v-btn>
-    </template>
-    <template v-slot:[`item.descricao`]="{ item }">
-        <span :title="item.descricao">{{item.descricao.length > 40 ? `${item.descricao.substr(0,37)}...` : item.descricao}}</span>
-    </template>
-  </v-data-table>
+    <div>
+        <h2>Produtos</h2>
+        <v-data-table
+            :headers="headers"
+            :items="items"
+            :items-per-page="10"
+            class="elevation-1"
+        >
+            <template v-slot:[`item.actions`]="{ item }">
+                <v-btn icon color="primary" :to="`produto/${item.id}/editar`"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn icon color="red"><v-icon @click="apagarProduto(item.id)">mdi-delete</v-icon></v-btn>
+            </template>
+            <template v-slot:[`item.descricao`]="{ item }">
+                <span :title="item.descricao">{{item.descricao.length > 40 ? `${item.descricao.substr(0,37)}...` : item.descricao}}</span>
+            </template>
+        </v-data-table>
+    </div>
 </template>
 <script>
 export default {
@@ -24,7 +27,6 @@ export default {
                     id: produto.id,
                     nome: produto.nome,
                     codigo: produto.codigo,
-                    nome: produto.nome,
                     descricao: produto.descricao,
                     preco: produto.preco,
                     dataCriacao: (new Date(produto.dataCriacao)).toLocaleString(),

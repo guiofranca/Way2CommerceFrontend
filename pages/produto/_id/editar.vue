@@ -72,7 +72,10 @@ export default {
                     categoriaId: response.categoria.id,
                 }
             })
-            .catch((response) => (console.log(response)))
+            .catch((response) => {
+                this.$notifier.showMessage({ content: "Produto não encontrado", color: 'error' })
+                this.$router.push('/produto')
+            })
 
         await this.$axios.$get("/Categoria")
             .then((response) => {
