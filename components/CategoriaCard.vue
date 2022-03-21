@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title primary-title>
-            {{categoria.nome}}
+            {{categoria.name}}
         </v-card-title>
     </v-card>
 </template>

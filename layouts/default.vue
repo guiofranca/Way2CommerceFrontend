@@ -24,6 +24,25 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
+      <template v-slot:append v-if="this.$auth.loggedIn">
+        <v-list>
+          <v-list-item
+            to="user"
+            router
+            exact
+          >
+            <v-list-item-action>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{$auth.user.name}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-btn block color="primary" dark v-on:click="logout">Sair</v-btn>
+        </v-list>
+      </template>
+
     </v-navigation-drawer>
     <v-app-bar
       :clipped-left="clipped"
@@ -77,6 +96,11 @@ export default {
       right: false,
       rightDrawer: false,
       title: 'Way2 Commerce'
+    }
+  },
+  methods: {
+    async logout() {
+      await this.$auth.logout()
     }
   }
 }

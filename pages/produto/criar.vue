@@ -8,27 +8,34 @@
                 <v-card-text>
                     <v-text-field 
                         label="Código"
-                        v-model="form.codigo"
+                        v-model="form.code"
+                        :error-messages="errors.Code"
                     ></v-text-field>
                     <v-text-field 
                         label="Nome"
-                        v-model="form.nome"
+                        v-model="form.name"
+                        :error-messages="errors.Name"
                     ></v-text-field>
                     <v-textarea
                         label="Descrição"
-                        v-model="form.descricao"
+                        v-model="form.description"
                         rows="2"
+                        :error-messages="errors.Description"
                         ></v-textarea>
                     <v-text-field
                         label="Preço"
-                        v-model="form.preco"
+                        v-model="form.price"
+                        type="number"
+                        :error-messages="errors.Price"
                     ></v-text-field>
                     <v-select
                         :items="categorias"
-                        item-text="nome"
+                        item-text="name"
                         item-value="id"
                         label="Categoria"
-                        v-model="form.categoriaId"
+                        v-model="form.categoryIds"
+                        :error-messages="errors.CategoriesIds"
+                        multiple
                     ></v-select>
             </v-card-text>
             <v-card-actions>
@@ -51,16 +58,17 @@ export default {
                 //value => (value && value.length >= 3) || 'Min 3 characters',
             ],
             form: {
-                nome: '',
-                codigo: '',
-                descricao: '',
-                preco: '',
-                categoriaId: null,
-            }
+                name: '',
+                code: '',
+                description: '',
+                price: 0.00,
+                categoryIds: [],
+            },
+            errors: {}
         }
     },
     async mounted() {
-        await this.$axios.$get("/Categoria")
+        await this.$axios.$get("/Category")
             .then((response) => {
                 this.categorias = response
                 this.carregando = false
@@ -70,14 +78,14 @@ export default {
     },
     methods: {
         async criar() {
-            await this.$axios.$post("/Produto", this.form)
+            await this.$axios.$post("/Product", this.form)
                 .then((response) => {
                     this.$notifier.showMessage({ content: "Produto criado com sucesso", color: 'success' })
-                    console.log(response)
                     this.$router.push('/produto')
                 })
                 .catch(error => {
                     this.$notifier.showMessage({ content: error.response.data.title, color: 'error' })
+                    this.errors = error.response.data.errors
                 })
         }
     }

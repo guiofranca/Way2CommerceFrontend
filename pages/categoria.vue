@@ -26,12 +26,12 @@ export default {
     }
   },
   async mounted() {
-    await this.$axios.$get("/Categoria")
+    await this.$axios.$get("/Category")
       .then((response) => {
         this.categorias = response
         this.carregando = false
       })
-      .catch((response) => (console.log(response)))
+      .catch((error) => this.$notifier.showMessage({ content: "Erro na consulta das categorias", color: 'error' }))
   }
 }
 </script>

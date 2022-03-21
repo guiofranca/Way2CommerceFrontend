@@ -1,15 +1,15 @@
 <template>
     <v-card>
         <v-card-title primary-title>
-            {{produto.nome}}
+            {{produto.name}}
         </v-card-title>
         <v-card-subtitle>
-            {{produto.descricao}}
+            {{produto.description}}
         </v-card-subtitle>
         <v-card-text>
-            <p>Categoria: {{produto.categoria.nome}}</p>
-            <p>Código: {{produto.codigo}}</p>
-            <p>Preço: {{produto.preco}}</p>
+            <p>Categoria: {{produto.categories}}</p>
+            <p>Código: {{produto.code}}</p>
+            <p>Preço: {{produto.price}}</p>
         </v-card-text>
     </v-card>
 </template>

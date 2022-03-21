@@ -11,8 +11,8 @@
                 <v-btn icon color="primary" :to="`produto/${item.id}/editar`"><v-icon>mdi-pencil</v-icon></v-btn>
                 <v-btn icon color="red"><v-icon @click="apagarProduto(item.id)">mdi-delete</v-icon></v-btn>
             </template>
-            <template v-slot:[`item.descricao`]="{ item }">
-                <span :title="item.descricao">{{item.descricao.length > 40 ? `${item.descricao.substr(0,37)}...` : item.descricao}}</span>
+            <template v-slot:[`item.description`]="{ item }">
+                <span :title="item.description">{{item.description.length > 40 ? `${item.description.substr(0,37)}...` : item.description}}</span>
             </template>
         </v-data-table>
     </div>
@@ -25,12 +25,13 @@ export default {
             return this.produtos.map(produto => {
                 return {
                     id: produto.id,
-                    nome: produto.nome,
-                    codigo: produto.codigo,
-                    descricao: produto.descricao,
-                    preco: produto.preco,
-                    dataCriacao: (new Date(produto.dataCriacao)).toLocaleString(),
-                    categoria: produto.categoria.nome,
+                    name: produto.name,
+                    code: produto.code,
+                    description: produto.description,
+                    price: produto.price,
+                    categories: produto.categories
+                        .map((cat) => cat.name)
+                        .join(', '),
                 }
             });
         }
@@ -44,12 +45,11 @@ export default {
                     sortable: true,
                     value: 'id',
                 },
-                { text: 'Código', value: 'codigo' },
-                { text: 'Nome', value: 'nome' },
-                { text: 'Descrição', value: 'descricao' },
-                { text: 'Preço', value: 'preco' },
-                { text: 'Data de cadastro', value: 'dataCriacao' },
-                { text: 'Categoria', value: 'categoria' },
+                { text: 'Código', value: 'code' },
+                { text: 'Nome', value: 'name' },
+                { text: 'Descrição', value: 'description' },
+                { text: 'Preço', value: 'price' },
+                { text: 'Categoria', value: 'categories' },
                 { text: 'Ações', value: 'actions' },
             ],
         }
@@ -57,7 +57,7 @@ export default {
     methods: {
         async apagarProduto(id) {
             if(confirm("Tem certeza? Não da pra desfazer.")){
-                await this.$axios.$delete(`Produto/${id}`)
+                await this.$axios.$delete(`Product/${id}`)
                     .then(r => {
                         this.$notifier.showMessage({ content: 'Produto excluído!', color: 'success' })
                         $nuxt.$emit('produtoApagado', id)

@@ -44,3 +44,8 @@
     </v-col>
   </v-row>
 </template>
+<script>
+export default {
+  auth: false
+}
+</script>

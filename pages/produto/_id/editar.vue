@@ -8,27 +8,34 @@
                 <v-card-text>
                     <v-text-field 
                         label="Código"
-                        v-model="form.codigo"
+                        v-model="form.code"
+                        :error-messages="errors.Code"
                     ></v-text-field>
                     <v-text-field 
                         label="Nome"
-                        v-model="form.nome"
+                        v-model="form.name"
+                        :error-messages="errors.Name"
                     ></v-text-field>
                     <v-textarea
                         label="Descrição"
-                        v-model="form.descricao"
+                        v-model="form.description"
                         rows="2"
+                        :error-messages="errors.Description"
                         ></v-textarea>
                     <v-text-field
                         label="Preço"
-                        v-model="form.preco"
+                        v-model="form.price"
+                        type="number"
+                        :error-messages="errors.Price"
                     ></v-text-field>
                     <v-select
                         :items="categorias"
-                        item-text="nome"
+                        item-text="name"
                         item-value="id"
                         label="Categoria"
-                        v-model="form.categoriaId"
+                        v-model="form.categoryIds"
+                        :error-messages="errors.CategoriesIds"
+                        multiple
                     ></v-select>
             </v-card-text>
             <v-card-actions>
@@ -52,24 +59,24 @@ export default {
                 //value => (value && value.length >= 3) || 'Min 3 characters',
             ],
             form: {
-                nome: '',
-                codigo: '',
-                descricao: '',
-                preco: '',
-                categoriaId: null,
-            }
+                name: '',
+                code: '',
+                description: '',
+                price: '',
+                categoryIds: [],
+            },
+            errors: {}
         }
     },
     async mounted() {
-        await this.$axios.$get(`/Produto/${this.$route.params.id}`)
+        await this.$axios.$get(`/Product/${this.$route.params.id}`)
             .then((response) => {
                 this.form = {
-                    id: response.id,
-                    nome: response.nome,
-                    codigo: response.codigo,
-                    descricao: response.descricao,
-                    preco: response.preco,
-                    categoriaId: response.categoria.id,
+                    name: response.name,
+                    code: response.code,
+                    description: response.description,
+                    price: response.price,
+                    categoryIds: response.categories.map((category) => category.id),
                 }
             })
             .catch((response) => {
@@ -77,7 +84,7 @@ export default {
                 this.$router.push('/produto')
             })
 
-        await this.$axios.$get("/Categoria")
+        await this.$axios.$get("/Category")
             .then((response) => {
                 this.categorias = response
                 this.carregando = false
@@ -87,7 +94,7 @@ export default {
     },
     methods: {
         async editar() {
-            await this.$axios.$put(`/Produto/${this.$route.params.id}`, this.form)
+            await this.$axios.$patch(`/Product/${this.$route.params.id}`, this.form)
                 .then((response) => {
                     this.$notifier.showMessage({ content: "Produto alterado com sucesso", color: 'success' })
                     console.log(response)
@@ -95,6 +102,7 @@ export default {
                 })
                 .catch(error => {
                     this.$notifier.showMessage({ content: error.response.data.title, color: 'error' })
+                    this.errors = error.response.data.errors
                 })
         }
     }

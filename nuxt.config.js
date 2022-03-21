@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+import path from 'path'
+import fs from 'fs'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -7,6 +9,13 @@ export default {
   env: {
     baseUrl: process.env.BASE_URL,
     apiUrl: process.env.API_URL,
+  },
+
+  server: {
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'localhost.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'localhost.crt'))
+    }
   },
 
   // Target: https://go.nuxtjs.dev/config-target
@@ -51,7 +60,45 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
+
+  router: {
+    middleware: [
+      'auth',
+    ]
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: false,
+          autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/Auth/Login', method: 'post' },
+          //logout: { url: '/Auth/Logout', method: 'post' },
+          logout: false,
+          user: { url: '/Auth/User', method: 'get' }
+        },
+        scope: true,
+        scopeKey: "role",
+      }
+    },
+    redirect: {
+      login: "/login",
+      logout: "/",
+      callback: "/login",
+      home: "/"
+    },
+  },
 
   axios: {
     baseURL: process.env.apiUrl,

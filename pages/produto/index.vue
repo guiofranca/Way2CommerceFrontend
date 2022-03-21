@@ -32,7 +32,7 @@ export default {
         }
     },
     async mounted() {
-        await this.$axios.$get("/Produto")
+        await this.$axios.$get("/Product")
         .then((response) => {
             this.produtos = response
             this.carregando = false
