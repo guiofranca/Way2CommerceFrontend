@@ -84,8 +84,12 @@ export default {
                     this.$router.push('/produto')
                 })
                 .catch(error => {
-                    this.$notifier.showMessage({ content: error.response.data.title, color: 'error' })
-                    this.errors = error.response.data.errors
+                    try {
+                        this.$notifier.showMessage({ content: error.response.data.title, color: 'error' })
+                        this.errors = error.response.data.errors
+                    } catch (ex) {
+                        this.$notifier.showMessage({ content: "Erro desconhecido", color: 'error' })
+                    }
                 })
         }
     }

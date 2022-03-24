@@ -72,6 +72,7 @@ export default {
   auth: {
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'token',
           global: true,
@@ -84,12 +85,15 @@ export default {
         },
         endpoints: {
           login: { url: '/Auth/Login', method: 'post' },
-          //logout: { url: '/Auth/Logout', method: 'post' },
-          logout: false,
+          refresh: { url: '/Auth/RefreshToken', method: 'post' },
+          logout: { url: '/Auth/Logout', method: 'post' },
           user: { url: '/Auth/User', method: 'get' }
         },
-        scope: true,
-        scopeKey: "role",
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken',
+          tokenRequired: true,
+        },
       }
     },
     redirect: {
@@ -98,6 +102,8 @@ export default {
       callback: "/login",
       home: "/"
     },
+    scope: true,
+    scopeKey: "roles",
   },
 
   axios: {

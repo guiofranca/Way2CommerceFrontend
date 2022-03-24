@@ -97,12 +97,15 @@ export default {
             await this.$axios.$patch(`/Product/${this.$route.params.id}`, this.form)
                 .then((response) => {
                     this.$notifier.showMessage({ content: "Produto alterado com sucesso", color: 'success' })
-                    console.log(response)
                     this.$router.push('/produto')
                 })
                 .catch(error => {
-                    this.$notifier.showMessage({ content: error.response.data.title, color: 'error' })
-                    this.errors = error.response.data.errors
+                    try {
+                        this.$notifier.showMessage({ content: error.response.data.title, color: 'error' })
+                        this.errors = error.response.data.errors
+                    } catch (ex) {
+                        this.$notifier.showMessage({ content: "Erro desconhecido", color: 'error' })
+                    }
                 })
         }
     }

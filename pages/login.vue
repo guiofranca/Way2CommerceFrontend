@@ -1,7 +1,7 @@
 <template>
 
     <v-row>
-        <v-col lg="4">
+        <v-col md="6" offset-md="3">
             <v-card
                 :loading="loading"
             >
@@ -58,9 +58,10 @@
                 e.preventDefault()
                 this.loading = true;
                 await this.$auth.loginWith('local', { data: this.login })
+                    .then(() => {
+                        this.$router.push('/')
+                    })
                     .catch((err) => {
-                        console.log(err);
-                        //this.$notifier.showMessage({ content: err.response.data, color: 'error' })
                         this.error = true
                     })
                 

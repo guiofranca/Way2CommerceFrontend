@@ -8,8 +8,8 @@
             class="elevation-1"
         >
             <template v-slot:[`item.actions`]="{ item }">
-                <v-btn icon color="primary" :to="`produto/${item.id}/editar`"><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn icon color="red"><v-icon @click="apagarProduto(item.id)">mdi-delete</v-icon></v-btn>
+                <v-btn icon color="primary" :disabled="podeEditar" :to="`produto/${item.id}/editar`"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn icon color="red" :disabled="podeApagar" ><v-icon @click="apagarProduto(item.id)">mdi-delete</v-icon></v-btn>
             </template>
             <template v-slot:[`item.description`]="{ item }">
                 <span :title="item.description">{{item.description.length > 40 ? `${item.description.substr(0,37)}...` : item.description}}</span>
@@ -34,6 +34,12 @@ export default {
                         .join(', '),
                 }
             });
+        },
+        podeEditar: function() {
+            return !(this.$auth.hasScope('Administrator') || this.$auth.hasScope('Moderator'))
+        },
+        podeApagar: function() {
+            return !this.$auth.hasScope('Administrator')
         }
     },
     data () {
@@ -56,6 +62,7 @@ export default {
     },
     methods: {
         async apagarProduto(id) {
+            console.log(this.$auth.hasScope('Administrator'), this.$auth.hasScope('Moderator'))
             if(confirm("Tem certeza? Não da pra desfazer.")){
                 await this.$axios.$delete(`Product/${id}`)
                     .then(r => {

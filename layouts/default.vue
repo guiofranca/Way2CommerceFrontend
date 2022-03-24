@@ -28,7 +28,7 @@
       <template v-slot:append v-if="this.$auth.loggedIn">
         <v-list>
           <v-list-item
-            to="user"
+            to="/user"
             router
             exact
           >
@@ -39,7 +39,19 @@
               <v-list-item-title>{{$auth.user.name}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-btn block color="primary" dark v-on:click="logout">Sair</v-btn>
+          <v-list-item>
+            <v-btn block color="primary" dark v-on:click="logout">Sair</v-btn>
+          </v-list-item>
+        </v-list>
+      </template>
+      <template v-else v-slot:append>
+        <v-list>
+          <v-list-item>
+            <v-btn block color="primary" dark to="/registrar">Registrar</v-btn>
+          </v-list-item>
+          <v-list-item>
+            <v-btn block color="primary" dark to="/login">Entrar</v-btn>
+          </v-list-item>
         </v-list>
       </template>
 
@@ -60,6 +72,7 @@
     </v-main>
     
     <v-footer
+      v-if="false"
       :absolute="!fixed"
       app
     >

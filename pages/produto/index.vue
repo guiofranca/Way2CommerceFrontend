@@ -16,6 +16,7 @@
             bottom
             right
             fixed
+            :disabled="podeCriar"
             to="/produto/criar"
             title="Criar um produto"
         >
@@ -43,6 +44,11 @@ export default {
         $nuxt.$on("produtoApagado", (id) => {
             this.produtos = this.produtos.filter((p) => p.id != id)
         })
-    }
+    },
+    computed: {
+        podeCriar: function() {
+            return !(this.$auth.hasScope('Administrator') || this.$auth.hasScope('Moderator'))
+        }
+    },
 }
 </script>
