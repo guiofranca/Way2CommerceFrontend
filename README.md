@@ -10,7 +10,7 @@ Esse repositório contém o código da aplicação front-end do Bootcamp Way2.
 
 ## Sobre
 
-Projeto usando vue2/Nuxt.
+Projeto usando vue2/Nuxt. Projeto relacionado: [Way2CommerceBackend](https://github.com/guiofranca/Way2CommerceBackend)
 
 ## Instalação
 
