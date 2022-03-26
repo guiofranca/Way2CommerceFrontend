@@ -23,8 +23,7 @@
                             <v-text-field
                                 name="password"
                                 v-model="login.password"
-                                label="Enter your password"
-                                hint="Pelo menos 8 caracteres"
+                                label="Digite sua senha"
                                 min="8"
                                 value=""
                                 type="password"
