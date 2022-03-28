@@ -69,7 +69,14 @@ export default {
                         this.$notifier.showMessage({ content: 'Produto excluído!', color: 'success' })
                         $nuxt.$emit('produtoApagado', id)
                     })
-                    .catch(r => this.$notifier.showMessage({ content: r.response.data.message, color: 'error' }))
+                    .catch(r => {
+                        try {
+                            this.$notifier.showMessage({ content: r.response.data.message, color: 'error' })
+                            this.errors = error.response.data.errors
+                        } catch (ex) {
+                            this.$notifier.showMessage({ content: "Erro desconhecido", color: 'error' })
+                        }
+                    })
             }
         }
     }
