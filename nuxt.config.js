@@ -90,8 +90,7 @@ export default {
                     user: { url: '/Auth/User', method: 'get' }
                 },
                 refreshToken: {
-                    property: 'refreshToken',
-                    data: 'refreshToken',
+                    required: false,
                     tokenRequired: true,
                 },
             }
